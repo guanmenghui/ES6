@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<button class="btn">按钮</button>
+		<button id="btn">箭头按钮</button>
+		<input type="text" />
+		
+		
+		<script src="jquery-2.1.0.js"></script>
+		<script type="text/javascript">	
+			/*es5*/
+			//字符拼接
+			var f="zz";
+			var l="gg";
+			console.log('es5字符串拼接 '+f+" "+l)
+			//结构赋值
+			var array=[1,2,3,4];
+			var fi=array[0];
+			var la=array[2];
+			console.log("es5数组解构赋值"+fi,la)
+			
+			function margin () {
+				var left=1,right=2,top=3,bottom=4;
+				return{left:left,right:right,top:top,bottom:bottom}
+			}
+			var data=margin();
+			var left=data.left,
+				bottom=data.bottom;
+				console.log("es5结构赋值"+left,bottom)
+			
+			//深度匹配
+			function settings () {
+				return{display:{color:'red'},keyboard:{layout:'querty'}}
+			}
+			var tmp=settings();
+			var displayColor=tmp.display.color;
+			var keyboardLayout=tmp.keyboard.layout;
+			console.log(displayColor,keyboardLayout)
+			
+			//类和对象
+			var Animal=(function(){
+				function Preson(name){
+					this.name=name;
+				}
+				Preson.prototype.info=function(){
+					console.log(this.name+"你好")
+				}
+				return Preson;
+			})();
+			var animal=new Animal('关孟辉');
+			animal.info()
+			//继承
+			var Lion=(function(){
+				function Preson(name){
+					Animal.call(this,name)
+				}
+				Preson.prototype=Object.create(Animal.prototype);
+				Preson.prototype.constructor=Animal;
+				Preson.prototype.info=function(){
+					Animal.prototype.info.call(this);
+					console.log(this.name+"继承了")
+				}
+				return Preson;
+			})()
+			var lion=new Lion("es5矦晓军");
+			lion.info()
+			
+			//Promise
+			function printAfter (string,timeout,done) {
+				setTimeout(function(){
+					done(string)
+				},timeout)
+				
+				printAfter('es5Hello',2e3,function(result){
+					console.log(result)
+				})
+				
+				printAfter(result+"你好es5",2e3,function(result){
+					console.log(result)
+				})
+			}
+			//(箭头函数)指向问题
+			var _this=this;
+			$(".btn").click(function(event){
+				_this.sendData()
+			})
+			$("input").on('change',function(event){
+				this.sendData()
+			}.bind(this))
+			
+			function sendData(){
+				console.log(this)
+			}
+			//展开操作符
+			console.log(Math.max.apply(Math,[2,3,5,8,15,0]))
+			//合并数组
+			var arr1=[2,5,6,8],
+				arr2=['a','b','c','d'],
+				arr3=[false,true,null,undefined];
+				console.log(arr1.concat(arr2,arr3))
+			//剩余参数
+			function printf (format) {
+				var params=[].slice.call(arguments,1);
+				console.log('params',params);
+				console.log('format',format);
+			}
+			printf('%s %d %.2f','admin',321,Math.PI)
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			/*es6*/
+			//字符拼接
+			const first="zs";
+			const last="ls";		
+			console.log(`es6字符串拼接 ${first} ${last}`)
+			//结构赋值
+			const array1=[1,2,3,4];
+			const [first1,last1]=array1;
+			console.log(`es5数组解构赋值${first1} ${last1}`)
+			
+			function padding () {
+				const left1=1,right1=2,top1=3,bottom1=4;
+				return{left1,right1,top1,bottom1}
+			}
+			const{left1,bottom1}=padding()
+			console.log("es6函数结构赋值"+left1,bottom1)
+			//深度匹配
+			function setting2 () {
+				return{display:{color:'green'},keyboard:{layout:'return'}}
+			}
+			const{display:{color:s},keyboard:{layout:e}}=setting2()
+			console.log(s,e)
+			//类和对象
+			class Preson{
+				constructor(name){
+					this.name=name;
+				}
+				info(){
+					console.log(this.name+"hello")
+				}
+			}
+			const preson=new Preson('关孟辉');
+			preson.info()
+			
+			class Student extends Preson{
+				info(){
+					super.info();
+					console.log(this.name+'继承了')
+				}
+			}
+			const stduent=new Student("es6矦晓军")
+				  stduent.info()
+				  
+			function printAfterTimeout (string,timeout) {
+				return new Promise((resolve,reject)=>{
+					setTimeout(function(){
+						resolve(string);
+					},timeout)
+				})
+			}
+			printAfterTimeout('es6Hello',2e3).then((result)=>{
+				console.log(result);
+				return printAfterTimeout(result+'Reader',2e3)
+			}).then((result)=>{
+				console.log(result)
+			})
+			printAfterTimeout()
+			
+			//箭头函数
+			$("#btn").click((event)=>this.sendData())
+			
+			//展开操作符
+			console.log(Math.max(...[1,454,564,8,23,2]))
+			//合并数组
+			const array0=[1,4,7,8];
+			const array2=['g','d','h','e'];
+			const array3=[false,true,null,undefined];
+			console.log([...array0,...array2,...array3])
+			//剩余参数
+			function p(format,...params){
+				console.log('params',params);
+				console.log('format',format);
+			}
+			p('%s %d %.2f','admin',321,Math.PI)
+		</script>
+	</body>
+</html>
